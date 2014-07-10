@@ -1,0 +1,257 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Back to Main</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-07-09"><meta name="DC.source" content="plot_figures.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Back to Main</h1><div><ul><li><a href="file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html">Back to Main</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> []= plot_figures(plot_options, assigned_clusters, transition_labels, state_transitions,<span class="keyword">...</span>
+    feature, new_transition_probabilities, new_state_transitions, adjacency_matrix, new_states,<span class="keyword">...</span>
+    power_trace, energy,ID_of_interest, index, file_path)
+
+
+
+
+    <span class="comment">%plot clustering results</span>
+    <span class="keyword">if</span> strcmp(plot_options.cluster_flag,<span class="string">'true'</span>)
+        figure (1)
+        group_labels=600*ones(length(assigned_clusters),1);
+        <span class="keyword">for</span> i1= 1:length(transition_labels)
+            group_labels(find(assigned_clusters==transition_labels(i1)))=<span class="keyword">...</span>
+                round(state_transitions(i1));
+        <span class="keyword">end</span>
+
+        subplot(2,2,index)
+        gscatter(feature(:,1),feature(:,2),group_labels,<span class="string">''</span>,<span class="string">'o+x*+'</span>)
+        title ([plot_options.cluster_alg <span class="string">' '</span> num2str(ID_of_interest(index))]);
+    <span class="keyword">end</span>
+
+
+    <span class="comment">%plot FSMs</span>
+    <span class="keyword">if</span> strcmp(plot_options.fsm_flag,<span class="string">'true'</span>)
+        <span class="comment">%DG=sparse(new_transition_probabilities);%, new_state_transitions);</span>
+        <span class="comment">%view(biograph(DG,[],'ShowWeights','on'))</span>
+        bg=(biograph(adjacency_matrix,cellstr(num2str(new_states'))));
+        bg1=bg.getnodesbyid;
+        set(bg1,<span class="string">'Shape'</span>,<span class="string">'circle'</span>,<span class="string">'FontSize'</span>,36);
+        set(bg.edges,<span class="string">'LineWidth'</span>,1.5,<span class="string">'LineColor'</span>,[0 0 0])
+        <span class="comment">%view(bg)</span>
+
+        g = biograph.bggui(bg);
+        f1=figure;
+        <span class="comment">%f1=subplot(4,2,index);</span>
+        copyobj((g.biograph.hgAxes),f1);
+        print([<span class="string">'-f'</span> num2str(f1)],<span class="string">'-deps'</span>,<span class="string">'print.eps'</span>)
+        title([<span class="string">'FSM States'</span> <span class="string">' '</span> num2str(ID_of_interest(index))],<span class="string">'position'</span>,[0.5 0.5],<span class="string">'Fontsize'</span>,20)
+        close(g.hgFigure);
+    <span class="keyword">end</span>
+
+        <span class="comment">%plot FSMs</span>
+    <span class="keyword">if</span> strcmp(plot_options.state_transitions,<span class="string">'true'</span>)
+        bg=biograph(new_transition_probabilities,cellstr(num2str(new_state_transitions)));
+        bg1=bg.getnodesbyid;
+        set(bg1,<span class="string">'Shape'</span>,<span class="string">'box'</span>,<span class="string">'FontSize'</span>,36);
+        set(bg.edges,<span class="string">'LineWidth'</span>,1.5,<span class="string">'LineColor'</span>,[0 0 0])
+        <span class="comment">%view(bg)</span>
+
+        g = biograph.bggui(bg);
+        f1=figure;
+        <span class="comment">%f1=subplot(4,2,index);</span>
+        copyobj((g.biograph.hgAxes),f1);
+        print([<span class="string">'-f'</span> num2str(f1)],<span class="string">'-deps'</span>,<span class="string">'print.eps'</span>)
+        title([<span class="string">'State transition diagrams'</span> <span class="string">' '</span> num2str(ID_of_interest(index))],<span class="keyword">...</span>
+            <span class="string">'position'</span>,[0.5 0.5],<span class="string">'Fontsize'</span>,20)
+        <span class="comment">%close(g.hgFigure);</span>
+    <span class="keyword">end</span>
+
+
+
+    <span class="comment">%plot energy trace</span>
+    <span class="keyword">if</span> strcmp(plot_options.recon_trace,<span class="string">'true'</span>)
+            figure
+            load ([file_path <span class="string">'/P_sensor_'</span> num2str(ID_of_interest(index)) <span class="string">'.mat'</span>]);
+
+            t_unix=round((P.t-datenum(1970,1,1))*86400);
+            [~,start_time]=min(abs(t_unix-power_trace(1,1)));
+            [~,end_time]=min(abs(t_unix-power_trace(end,1)));
+            t_unix=t_unix(start_time:end_time);
+            P.P1=P.P1(start_time:end_time);
+            <span class="comment">%subplot(4,2,index);</span>
+            plot(t_unix,P.P1);hold <span class="string">on</span>;
+            plot(power_trace(:,1),power_trace(:,2),<span class="string">'r'</span>)
+
+
+            trace_time=power_trace(:,1);
+            trace_time(diff(trace_time)&lt;1)=[];
+            power_trace(diff(trace_time)&lt;1,2)=[];
+
+            common_index=find(ismember(t_unix,trace_time));
+            t_unix=t_unix(common_index);
+            P.P1=P.P1(common_index);
+
+            error=(sum(P.P1)-sum(power_trace(:,2)))/sum(P.P1)*100;
+
+            title([<span class="string">'appliance: '</span> num2str(ID_of_interest(index)) <span class="string">' estimated error: '</span> num2str(error)]);
+     <span class="keyword">end</span>
+
+
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Back to Main
+% * <file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html Back to Main>
+
+
+function []= plot_figures(plot_options, assigned_clusters, transition_labels, state_transitions,...
+    feature, new_transition_probabilities, new_state_transitions, adjacency_matrix, new_states,...
+    power_trace, energy,ID_of_interest, index, file_path)
+
+   
+   
+    
+    %plot clustering results
+    if strcmp(plot_options.cluster_flag,'true')
+        figure (1)
+        group_labels=600*ones(length(assigned_clusters),1);
+        for i1= 1:length(transition_labels)
+            group_labels(find(assigned_clusters==transition_labels(i1)))=...
+                round(state_transitions(i1));
+        end
+        
+        subplot(2,2,index)
+        gscatter(feature(:,1),feature(:,2),group_labels,'','o+x*+')
+        title ([plot_options.cluster_alg ' ' num2str(ID_of_interest(index))]);
+    end
+    
+    
+    %plot FSMs
+    if strcmp(plot_options.fsm_flag,'true')
+        %DG=sparse(new_transition_probabilities);%, new_state_transitions);
+        %view(biograph(DG,[],'ShowWeights','on'))
+        bg=(biograph(adjacency_matrix,cellstr(num2str(new_states'))));
+        bg1=bg.getnodesbyid;
+        set(bg1,'Shape','circle','FontSize',36);
+        set(bg.edges,'LineWidth',1.5,'LineColor',[0 0 0])
+        %view(bg)
+        
+        g = biograph.bggui(bg);
+        f1=figure;
+        %f1=subplot(4,2,index);
+        copyobj((g.biograph.hgAxes),f1);
+        print(['-f' num2str(f1)],'-deps','print.eps')
+        title(['FSM States' ' ' num2str(ID_of_interest(index))],'position',[0.5 0.5],'Fontsize',20)
+        close(g.hgFigure);
+    end
+    
+        %plot FSMs
+    if strcmp(plot_options.state_transitions,'true')
+        bg=biograph(new_transition_probabilities,cellstr(num2str(new_state_transitions)));
+        bg1=bg.getnodesbyid;
+        set(bg1,'Shape','box','FontSize',36);
+        set(bg.edges,'LineWidth',1.5,'LineColor',[0 0 0])
+        %view(bg)
+        
+        g = biograph.bggui(bg);
+        f1=figure;
+        %f1=subplot(4,2,index);
+        copyobj((g.biograph.hgAxes),f1);
+        print(['-f' num2str(f1)],'-deps','print.eps')
+        title(['State transition diagrams' ' ' num2str(ID_of_interest(index))],...
+            'position',[0.5 0.5],'Fontsize',20)
+        %close(g.hgFigure);
+    end
+    
+    
+    
+    %plot energy trace
+    if strcmp(plot_options.recon_trace,'true')
+            figure
+            load ([file_path '/P_sensor_' num2str(ID_of_interest(index)) '.mat']);
+            
+            t_unix=round((P.t-datenum(1970,1,1))*86400);
+            [~,start_time]=min(abs(t_unix-power_trace(1,1)));
+            [~,end_time]=min(abs(t_unix-power_trace(end,1)));
+            t_unix=t_unix(start_time:end_time);
+            P.P1=P.P1(start_time:end_time);
+            %subplot(4,2,index);
+            plot(t_unix,P.P1);hold on;
+            plot(power_trace(:,1),power_trace(:,2),'r')
+            
+            
+            trace_time=power_trace(:,1);
+            trace_time(diff(trace_time)<1)=[];
+            power_trace(diff(trace_time)<1,2)=[];
+            
+            common_index=find(ismember(t_unix,trace_time));
+            t_unix=t_unix(common_index);
+            P.P1=P.P1(common_index);
+            
+            error=(sum(P.P1)-sum(power_trace(:,2)))/sum(P.P1)*100;
+            
+            title(['appliance: ' num2str(ID_of_interest(index)) ' estimated error: ' num2str(error)]);
+     end
+        
+
+end
+##### SOURCE END #####
+--></body></html>

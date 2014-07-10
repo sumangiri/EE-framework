@@ -1,0 +1,234 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>calculate_energy</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-07-09"><meta name="DC.source" content="calculate_energy.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Back to Main</a></li><li><a href="#2">Calculate ground truth energy</a></li></ul></div><h2>Back to Main<a name="1"></a></h2><div><ul><li><a href="file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html">Back to Main</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> [energy, power_trace, gt_energy]=<span class="keyword">...</span>
+    calculate_energy(corrected_sequence,time_stamps, new_state_transitions, <span class="keyword">...</span>
+    transition_labels,new_states,ID_of_interest, file_path)
+</pre><h2>Calculate ground truth energy<a name="2"></a></h2><p><a href="file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/calculate_gt.html">calculate_gt</a></p><pre class="codeinput">    [gt_energy, gt_time_stamp]=calculate_gt(ID_of_interest, time_stamps, file_path);
+
+    <span class="keyword">for</span> i = 1:length(new_state_transitions)
+        states(corrected_sequence==transition_labels(i))=new_state_transitions(i);
+    <span class="keyword">end</span>
+
+    state_duration=round(diff(time_stamps));
+    on_transitions_counter=0;
+    off_transitions_counter=0;
+    <span class="comment">%energy=states(1:end-1)*state_duration;</span>
+    c=0;
+    <span class="comment">%create power trace</span>
+    <span class="keyword">for</span> k = 1:length(state_duration)
+
+        <span class="comment">%make sure nothing exceeds the max state</span>
+        <span class="keyword">if</span> sum(states(1:k))&gt;max(new_states)
+            states(k)=max(new_states)-sum(states(1:k-1));
+
+            <span class="comment">%make sure nothing goes below zero</span>
+        <span class="keyword">elseif</span> sum(states(1:k))&lt;0
+            states(k)=-1*sum(states(1:k-1));
+        <span class="keyword">end</span>
+
+        <span class="keyword">if</span> states(k)&gt;0
+            on_transitions_counter=on_transitions_counter+1;
+        <span class="keyword">else</span>
+            off_transitions_counter=off_transitions_counter+1;
+        <span class="keyword">end</span>
+
+        <span class="comment">%crude heuristic. make sure no errors are accrued</span>
+        <span class="keyword">if</span> on_transitions_counter==off_transitions_counter &amp;&amp;<span class="keyword">...</span>
+                sum(states(1:k))&gt;0 &amp;&amp;states(k)&lt;0
+            states(k)=-1*sum(states(1:k-1));
+        <span class="keyword">end</span>
+
+        <span class="comment">%reset counters after equilibrium.</span>
+        <span class="keyword">if</span> sum(states(1:k))==0
+            on_transitions_counter=0;
+            off_transitions_counter=0;
+        <span class="keyword">end</span>
+
+        power_trace(c+1:state_duration(k)+c,2)=sum(states(1:k));
+        c=c+state_duration(k);
+    <span class="keyword">end</span>
+
+    <span class="comment">%simulate time</span>
+    temp_time_stamp=[];
+    <span class="keyword">for</span> k2 = 1:length(state_duration)
+        temp1=linspace(time_stamps(k2),time_stamps(k2+1),state_duration(k2));
+        temp_time_stamp=[temp_time_stamp round(temp1)];
+    <span class="keyword">end</span>
+
+
+
+    missing_data=gt_time_stamp(find(diff(gt_time_stamp)&gt;50));
+    temp_diff=diff(gt_time_stamp);
+    missing_duration=temp_diff(temp_diff&gt;50);
+
+    <span class="keyword">for</span> i = 1:length(missing_data)
+        temp_index= find(ismember(temp_time_stamp,missing_data(i):missing_data(i)+missing_duration(i)));
+        power_trace(temp_index,:)=[];
+        temp_time_stamp(temp_index)=[];
+
+    <span class="keyword">end</span>
+
+    power_trace(:,1)=temp_time_stamp';
+    states(states&lt;0)=0;
+    energy=(states(1:end-1)*state_duration)/3600000;
+    power_trace(diff(power_trace(:,1))&lt;1,:)=[];
+
+    energy=sum(power_trace(:,2))/3600000;
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Back to Main
+% * <file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html Back to Main>
+
+
+function [energy, power_trace, gt_energy]=...
+    calculate_energy(corrected_sequence,time_stamps, new_state_transitions, ...
+    transition_labels,new_states,ID_of_interest, file_path)
+    %% Calculate ground truth energy
+    % <file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/calculate_gt.html calculate_gt>
+    [gt_energy, gt_time_stamp]=calculate_gt(ID_of_interest, time_stamps, file_path);
+    
+    for i = 1:length(new_state_transitions)
+        states(corrected_sequence==transition_labels(i))=new_state_transitions(i);
+    end
+   
+    state_duration=round(diff(time_stamps));
+    on_transitions_counter=0;
+    off_transitions_counter=0;
+    %energy=states(1:end-1)*state_duration;
+    c=0;
+    %create power trace      
+    for k = 1:length(state_duration)
+        
+        %make sure nothing exceeds the max state
+        if sum(states(1:k))>max(new_states)
+            states(k)=max(new_states)-sum(states(1:k-1));
+        
+            %make sure nothing goes below zero
+        elseif sum(states(1:k))<0
+            states(k)=-1*sum(states(1:k-1));
+        end
+        
+        if states(k)>0
+            on_transitions_counter=on_transitions_counter+1;
+        else
+            off_transitions_counter=off_transitions_counter+1;
+        end
+        
+        %crude heuristic. make sure no errors are accrued
+        if on_transitions_counter==off_transitions_counter &&...
+                sum(states(1:k))>0 &&states(k)<0
+            states(k)=-1*sum(states(1:k-1));
+        end
+        
+        %reset counters after equilibrium.
+        if sum(states(1:k))==0
+            on_transitions_counter=0;
+            off_transitions_counter=0;
+        end
+        
+        power_trace(c+1:state_duration(k)+c,2)=sum(states(1:k));
+        c=c+state_duration(k);
+    end
+    
+    %simulate time
+    temp_time_stamp=[];
+    for k2 = 1:length(state_duration)
+        temp1=linspace(time_stamps(k2),time_stamps(k2+1),state_duration(k2));
+        temp_time_stamp=[temp_time_stamp round(temp1)];
+    end
+    
+    
+    
+    missing_data=gt_time_stamp(find(diff(gt_time_stamp)>50));
+    temp_diff=diff(gt_time_stamp);
+    missing_duration=temp_diff(temp_diff>50);
+    
+    for i = 1:length(missing_data)
+        temp_index= find(ismember(temp_time_stamp,missing_data(i):missing_data(i)+missing_duration(i)));
+        power_trace(temp_index,:)=[];
+        temp_time_stamp(temp_index)=[];
+        
+    end
+        
+    power_trace(:,1)=temp_time_stamp';
+    states(states<0)=0;
+    energy=(states(1:end-1)*state_duration)/3600000;
+    power_trace(diff(power_trace(:,1))<1,:)=[];
+    
+    energy=sum(power_trace(:,2))/3600000;
+    
+   
+    
+    
+    
+end
+    
+    
+##### SOURCE END #####
+--></body></html>

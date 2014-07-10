@@ -1,0 +1,197 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>cluster_rotate</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-07-09"><meta name="DC.source" content="cluster_rotate.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Back to Main</a></li><li><a href="#3">obtain eigenvectors of laplacian of affinity matrix</a></li><li><a href="#4">Rotate eigenvectors</a></li></ul></div><h2>Back to Main<a name="1"></a></h2><div><ul><li><a href="file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html">Back to Main</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> [clusts,best_group_index,Quality,Vr] = cluster_rotate(A,group_num,fig,method)
+</pre><pre class="codeinput"><span class="comment">% cluster by rotating eigenvectors to align with the canonical coordinate</span>
+<span class="comment">% system</span>
+<span class="comment">%</span>
+<span class="comment">%   [clusts,best_group_index,Quality,Vr] = cluster_rotate(A,group_num,method,fig)</span>
+<span class="comment">%</span>
+<span class="comment">%  Input:</span>
+<span class="comment">%        A = Affinity matrix</span>
+<span class="comment">%       group_num - an array of group numbers to test</span>
+<span class="comment">%                    it is assumed to be a continuous set</span>
+<span class="comment">%        fig - Figure to display progress. set to 0 if no display is</span>
+<span class="comment">%              desired</span>
+<span class="comment">%       method - 1   gradient descent</span>
+<span class="comment">%                2   approximate gradient descent</span>
+<span class="comment">%</span>
+<span class="comment">%  Output:</span>
+<span class="comment">%        clusts - a cell array of the results for each group number</span>
+<span class="comment">%        best_group_index - the group number index with best alignment quality</span>
+<span class="comment">%        Quality = the final quality for all tested group numbers</span>
+<span class="comment">%        Vr = the rotated eigenvectors</span>
+<span class="comment">%</span>
+<span class="comment">%</span>
+<span class="comment">%  Code by Lihi Zelnik-Manor (2005)</span>
+<span class="comment">%</span>
+<span class="comment">%</span>
+
+
+<span class="keyword">if</span>( nargin &lt; 2 )
+    group_num = [2:6];
+<span class="keyword">end</span>
+<span class="keyword">if</span>( nargin &lt; 3 )
+    fig = 0;
+<span class="keyword">end</span>
+<span class="keyword">if</span>( nargin &lt; 4 )
+    method = 1;  <span class="comment">% method to calculate cost gradient. 1 means true derivative</span>
+                 <span class="comment">% change to any other value to estimate fradient numerically</span>
+<span class="keyword">end</span>
+group_num = sort(group_num);
+group_num = setdiff(group_num,1);
+</pre><h2>obtain eigenvectors of laplacian of affinity matrix<a name="3"></a></h2><pre class="codeinput">tic;
+nClusts = max(group_num);
+[V,evals] = evecs(A,nClusts);
+ttt = toc;
+disp([<span class="string">'evecs took '</span> num2str(ttt) <span class="string">' seconds'</span>]);
+</pre><h2>Rotate eigenvectors<a name="4"></a></h2><pre class="codeinput">clear <span class="string">clusts</span>;
+Vcurr = V(:,1:group_num(1));
+<span class="keyword">for</span> g=1:length(group_num),
+    <span class="comment">% make it incremental (used already aligned vectors)</span>
+    <span class="keyword">if</span>( g &gt; 1 )
+        Vcurr = [Vr{g-1},V(:,group_num(g))];
+    <span class="keyword">end</span>
+    [clusts{g},Quality(g),Vr{g}] = evrot(Vcurr,method);
+<span class="keyword">end</span>
+i = find(max(Quality)-Quality &lt;= 0.001);
+best_group_index = i(numel(i));
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Back to Main
+% * <file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html Back to Main>
+
+function [clusts,best_group_index,Quality,Vr] = cluster_rotate(A,group_num,fig,method)
+
+% cluster by rotating eigenvectors to align with the canonical coordinate
+% system
+%
+%   [clusts,best_group_index,Quality,Vr] = cluster_rotate(A,group_num,method,fig)
+%  
+%  Input:
+%        A = Affinity matrix
+%       group_num - an array of group numbers to test
+%                    it is assumed to be a continuous set
+%        fig - Figure to display progress. set to 0 if no display is
+%              desired
+%       method - 1   gradient descent 
+%                2   approximate gradient descent
+%       
+%  Output:
+%        clusts - a cell array of the results for each group number
+%        best_group_index - the group number index with best alignment quality
+%        Quality = the final quality for all tested group numbers
+%        Vr = the rotated eigenvectors
+%
+%
+%  Code by Lihi Zelnik-Manor (2005)
+%
+%
+
+
+if( nargin < 2 )
+    group_num = [2:6];
+end
+if( nargin < 3 )
+    fig = 0;
+end
+if( nargin < 4 )
+    method = 1;  % method to calculate cost gradient. 1 means true derivative
+                 % change to any other value to estimate fradient numerically
+end
+group_num = sort(group_num);
+group_num = setdiff(group_num,1);
+
+%% obtain eigenvectors of laplacian of affinity matrix
+tic; 
+nClusts = max(group_num);
+[V,evals] = evecs(A,nClusts); 
+ttt = toc;
+disp(['evecs took ' num2str(ttt) ' seconds']);
+
+%% Rotate eigenvectors
+clear clusts;
+Vcurr = V(:,1:group_num(1));
+for g=1:length(group_num),
+    % make it incremental (used already aligned vectors)
+    if( g > 1 )
+        Vcurr = [Vr{g-1},V(:,group_num(g))];
+    end
+    [clusts{g},Quality(g),Vr{g}] = evrot(Vcurr,method);
+end
+i = find(max(Quality)-Quality <= 0.001);
+best_group_index = i(numel(i));
+
+
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

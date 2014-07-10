@@ -1,0 +1,297 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Back to Main</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-07-10"><meta name="DC.source" content="perturb_state_transitions3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Back to Main</h1><div><ul><li><a href="file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html">Back to Main</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> new_state_transitions=perturb_state_transitions3(state_transitions, threshold1, threshold3)
+</pre><pre class="codeinput"><span class="comment">%May 24th. Written in order to get rid of the limitation of pairing in</span>
+<span class="comment">%previous versions</span>
+
+
+<span class="comment">%threshold1: far the error variables can fluctuate</span>
+<span class="comment">%threshold3: (anything below this will be considered as accumulated noise.</span>
+<span class="comment">%for each combination of offs and ons, anything below this will consider</span>
+<span class="comment">%the subset to be a cycle).</span>
+
+<span class="comment">%THINK ABOUT THIS SOME MORE: CAN THIS REPLACE SEARCH FOR CYCLES based on observed data?</span>
+
+
+    on_steps=state_transitions(state_transitions&gt;0);
+    off_steps=state_transitions(state_transitions&lt;0);
+</pre><p>Find all subsets of on_steps : Calls <a href="file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/AllSubsets.html">AllSubsets</a></p><pre class="codeinput">    on_comb = AllSubsets(on_steps);
+
+    on_subsets={};
+    <span class="keyword">for</span> i =1 :size(on_comb,1)
+        on_subsets{i,1}=on_comb(i,~isnan(on_comb(i,:)));
+    <span class="keyword">end</span>
+    on_subsets(end)=[];
+
+    off_comb = AllSubsets(off_steps);
+    off_subsets={};
+    <span class="keyword">for</span> i =1 :size(off_comb,1)
+        off_subsets{i,1}=off_comb(i,~isnan(off_comb(i,:)));
+    <span class="keyword">end</span>
+    off_subsets(end)=[];
+
+    k=1;
+    <span class="comment">%threshold=min(abs(state_transitions));</span>
+
+    constraint_indices=[];
+    opt_weights=[];
+
+    <span class="keyword">for</span> i = 1:length(on_subsets)
+        <span class="keyword">for</span> j = 1:length(off_subsets)
+            possible_cycles{k,1}=[on_subsets{i} off_subsets{j}];
+            k=k+1;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+  A=zeros(length(possible_cycles), length(state_transitions));
+
+  <span class="keyword">for</span> i = 1:length(possible_cycles)
+        index_1=ismember(state_transitions,possible_cycles{i});
+        A(i,index_1)=state_transitions(index_1);
+        B(i,:)=double(index_1);
+  <span class="keyword">end</span>
+
+  A=double(A);
+  b=ones(size(A,1),1);
+  n=length(state_transitions);
+  lambda=10e10;
+
+
+  temp_threshold3=threshold3;
+  temp_threshold1=threshold1;
+  x=nan*ones(n,1);
+
+  <span class="keyword">while</span> sum(isnan(x))
+
+      temp1=sum(A,2);
+      temp2=temp1(abs(temp1)&lt;threshold3);
+
+      <span class="keyword">if</span> ~length(temp2)
+          temp2=0;
+      <span class="keyword">end</span>
+
+      B1=B(abs(temp1)&lt;threshold3,:);
+
+      cvx_begin
+        variable <span class="string">x(n)</span>
+            resulting_cycles=sum(A + B.*repmat(x',size(A,1),1),2);
+            minimize(norm(resulting_cycles, 1)+lambda*(norm(x, 1)))
+            subject <span class="string">to</span>
+            <span class="comment">% This is an extra check in place to make sure that some rare</span>
+            <span class="comment">% appliances for whom total sum of state transitions</span>
+            <span class="comment">% doesn't equal zero aren't unfairly forced to follow the</span>
+            <span class="comment">% constraint</span>
+            <span class="keyword">if</span> abs(sum(state_transitions))/max(abs(state_transitions)) &lt;0.3 || abs(sum(state_transitions))&lt;50
+                sum((A(1,:)'+x))==0;
+            <span class="keyword">end</span>
+                temp2+B1*x==0;
+                -threshold1 &lt;= x &lt;=threshold1;
+      cvx_end
+
+      threshold3=threshold3-5;
+
+      <span class="keyword">if</span> threshold3 &lt; 1
+          threshold3=temp_threshold3;
+          threshold1=threshold1+5;
+
+          <span class="keyword">if</span> threshold1&gt;200
+
+              display (<span class="string">'no optimal solution could be found'</span>);
+
+              <span class="keyword">break</span>
+          <span class="keyword">end</span>
+
+      <span class="keyword">end</span>
+
+  <span class="keyword">end</span>
+
+  <span class="comment">%resulting_cycles=sum(A + B.*repmat(x',size(A,1),1),2);</span>
+  new_state_transitions=x(:)+state_transitions(:);
+  <span class="comment">%compare= [state_transitions' new_state_transitions];</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Back to Main
+% * <file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html Back to Main>
+
+function new_state_transitions=perturb_state_transitions3(state_transitions, threshold1, threshold3)
+%May 24th. Written in order to get rid of the limitation of pairing in
+%previous versions
+    
+
+%threshold1: far the error variables can fluctuate
+%threshold3: (anything below this will be considered as accumulated noise.
+%for each combination of offs and ons, anything below this will consider
+%the subset to be a cycle).
+
+%THINK ABOUT THIS SOME MORE: CAN THIS REPLACE SEARCH FOR CYCLES based on observed data?
+
+
+    on_steps=state_transitions(state_transitions>0);
+    off_steps=state_transitions(state_transitions<0);
+%%
+% Find all subsets of on_steps : Calls <file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/AllSubsets.html AllSubsets>
+
+    on_comb = AllSubsets(on_steps);
+    
+    on_subsets={};
+    for i =1 :size(on_comb,1)
+        on_subsets{i,1}=on_comb(i,~isnan(on_comb(i,:)));
+    end
+    on_subsets(end)=[];
+    
+    off_comb = AllSubsets(off_steps);
+    off_subsets={};
+    for i =1 :size(off_comb,1)
+        off_subsets{i,1}=off_comb(i,~isnan(off_comb(i,:)));
+    end
+    off_subsets(end)=[];
+    
+    k=1;
+    %threshold=min(abs(state_transitions));
+    
+    constraint_indices=[];
+    opt_weights=[];
+    
+    for i = 1:length(on_subsets)
+        for j = 1:length(off_subsets)
+            possible_cycles{k,1}=[on_subsets{i} off_subsets{j}]; 
+            k=k+1;
+        end
+    end
+  
+  A=zeros(length(possible_cycles), length(state_transitions));
+  
+  for i = 1:length(possible_cycles)
+        index_1=ismember(state_transitions,possible_cycles{i});
+        A(i,index_1)=state_transitions(index_1);
+        B(i,:)=double(index_1);
+  end
+  
+  A=double(A);
+  b=ones(size(A,1),1);
+  n=length(state_transitions);
+  lambda=10e10;
+  
+
+  temp_threshold3=threshold3;
+  temp_threshold1=threshold1;
+  x=nan*ones(n,1);
+  
+  while sum(isnan(x))
+      
+      temp1=sum(A,2);
+      temp2=temp1(abs(temp1)<threshold3);
+     
+      if ~length(temp2)
+          temp2=0;
+      end
+      
+      B1=B(abs(temp1)<threshold3,:);
+      
+      cvx_begin
+        variable x(n)
+            resulting_cycles=sum(A + B.*repmat(x',size(A,1),1),2);
+            minimize(norm(resulting_cycles, 1)+lambda*(norm(x, 1)))
+            subject to
+            % This is an extra check in place to make sure that some rare 
+            % appliances for whom total sum of state transitions
+            % doesn't equal zero aren't unfairly forced to follow the
+            % constraint
+            if abs(sum(state_transitions))/max(abs(state_transitions)) <0.3 || abs(sum(state_transitions))<50
+                sum((A(1,:)'+x))==0;
+            end
+                temp2+B1*x==0;
+                -threshold1 <= x <=threshold1;
+      cvx_end
+      
+      threshold3=threshold3-5;
+      
+      if threshold3 < 1
+          threshold3=temp_threshold3;
+          threshold1=threshold1+5;
+          
+          if threshold1>200
+              
+              display ('no optimal solution could be found');
+              
+              break
+          end
+          
+      end
+    
+  end
+  
+  %resulting_cycles=sum(A + B.*repmat(x',size(A,1),1),2);
+  new_state_transitions=x(:)+state_transitions(:);  
+  %compare= [state_transitions' new_state_transitions];
+
+  
+end
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,331 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Back to Main</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-07-09"><meta name="DC.source" content="gap_statistics.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Back to Main</h1><div><ul><li><a href="file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html">Back to Main</a></li></ul></div><pre class="codeinput"><span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%</span>
+<span class="comment">% A.Crimi 22 August 2012</span>
+<span class="comment">%</span>
+<span class="comment">% input:</span>
+<span class="comment">%       data: samples along the rows, each column has a different variable</span>
+<span class="comment">%       num_clusters: vector containing the possible number of clusters</span>
+<span class="comment">%       num_reference_bootstraps: the number of boostrap estimation for the</span>
+<span class="comment">%       reference dispersion</span>
+<span class="comment">%</span>
+<span class="comment">% output:</span>
+<span class="comment">%        optimal cluster number for the samples in data</span>
+<span class="comment">%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%</span>
+
+<span class="keyword">function</span> [ opt_k, max_gap] = gap_statistics(data, num_clusters, num_reference_bootstraps, compactness_as_dispersion)
+
+<span class="keyword">if</span>(nargin&lt;4)
+    compactness_as_dispersion = 0;
+<span class="keyword">end</span>
+
+<span class="comment">% Calculate actual dispersion</span>
+<span class="comment">% Assuming that the k-means algorithm is converging properly</span>
+actual_dispersions = calculate_dispersion(data, num_clusters, compactness_as_dispersion);
+
+<span class="comment">% Calculate reference dispersion</span>
+<span class="comment">%The reference dispersion is generally not well estimated for less than 2000 bootstrap iterations</span>
+[m_ref_dispersions std_reference_dispersion] = compute_reference_dispersion(data, num_clusters, num_reference_bootstraps, compactness_as_dispersion);
+
+<span class="comment">% Calculate gaps</span>
+gaps = abs(m_ref_dispersions - actual_dispersions);
+
+<span class="comment">% Check for Nan and Inf</span>
+<span class="keyword">if</span>(sum(isnan(gaps) |  sum(isinf(gaps))) |  sum(isnan(std_reference_dispersion) |  sum(isinf(std_reference_dispersion))))
+  disp(<span class="string">'Warning: There is a NaN or Inf among the results'</span>);
+<span class="keyword">end</span>
+
+<span class="comment">% Calculate Maximum gap</span>
+<span class="comment">% This is the traditional way assuming  that the data are not noisy</span>
+[val max_index ] = max(gaps) ;
+max_gap = num_clusters(max_index);
+
+<span class="comment">% Find the smallest k such that Gap(k) &gt; Gap(k+1) -  std_{k+1}</span>
+<span class="comment">%gaps = mean(n_gaps);</span>
+<span class="comment">%std_reference_dispersion = std(gaps,1,1);</span>
+dif_std = abs( gaps - (sqrt(1 + 1/num_reference_bootstraps) * std_reference_dispersion ) );
+
+[xpos ypos ] =  find( ( gaps(1:end-1) - dif_std(2:end)) &gt; 0 ); <span class="comment">%Note: Matlab returns the first min</span>
+
+<span class="keyword">if</span>(isempty(xpos))
+    xpos = max(num_clusters);
+<span class="keyword">end</span>
+<span class="comment">% Take only the first</span>
+opt_k = num_clusters(xpos(1));
+
+str = sprintf(<span class="string">'The max gap is for %d cluster/s'</span>, max_gap);
+disp(str);
+str = sprintf(<span class="string">'The largest gap change is for %d cluster/s. Consider this value for noisy data'</span>, opt_k);
+disp(str);
+
+<span class="comment">%figure; errorbar( num_clusters, gaps,  std_reference_dispersion);</span>
+<span class="comment">%xlabel('Number of Clusters')</span>
+<span class="comment">%ylabel('Gaps')</span>
+<span class="keyword">end</span>
+
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">% Calculate dispersions</span>
+<span class="keyword">function</span> dispersions = calculate_dispersion(test_data, num_clusters, compactness_as_dispersion)
+dispersions = zeros(length(num_clusters),1); <span class="comment">% W in the Tibshirani paper</span>
+[n_samples var_dim] = size(test_data);
+
+<span class="keyword">for</span> kk = 1 : length(num_clusters)
+    <span class="keyword">if</span>(kk == 1) <span class="comment">%K-means do not work for the only 1 cluster case</span>
+        cluster_mean = mean(test_data);
+        <span class="keyword">if</span>(compactness_as_dispersion)
+            D  = sum( sum( squareform(pdist(test_data  )))) / (2 * n_samples ) ; <span class="comment">%Already normalized for 2n</span>
+        <span class="keyword">else</span>
+            D = sum(  (sum( test_data - repmat(cluster_mean,n_samples,1) ).^2) )/ (2 * n_samples );
+        <span class="keyword">end</span>
+        dispersions(kk) =  log( D );
+    <span class="keyword">else</span>
+
+        <span class="comment">%ids = kmeans( test_data, num_clusters(kk) , 'Replicates', 5 ); %Warning k-means performs random initialization</span>
+
+        [ids,~] = kmeans_plus( test_data', num_clusters(kk));<span class="comment">% , 'Replicates', 5 ); %Warning k-means performs random initialization</span>
+
+        <span class="keyword">for</span>  jj = 1 : kk
+              <span class="keyword">if</span>(compactness_as_dispersion)
+                 D(jj) = sum( sum( squareform(pdist(test_data( find(ids == kk) ,:) )))) / (2 * length( find(ids == kk))); <span class="comment">%Already normalized for 2n</span>
+              <span class="keyword">else</span>
+                 cluster_mean = mean(test_data( find(ids == kk)));
+                 [n_samples_c var_dim] = size(test_data( find(ids == kk)));
+                 D(jj) = sum( (test_data( find(ids == kk)) - repmat(cluster_mean,n_samples_c,1) ).^2)/ (2 * n_samples_c );<span class="comment">%Already normalized for 2n</span>
+              <span class="keyword">end</span>
+        <span class="keyword">end</span>
+        dispersions(kk) = log(sum(D));
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">% Calculate reference dispersion</span>
+<span class="comment">% For an appropriate reference distribution (in this case, uniform points in the same range as `data`), simulate the mean and standard deviation of the dispersion.</span>
+<span class="keyword">function</span> [m_reference_dispersion std_reference_dispersion] = compute_reference_dispersion(reference_data, num_clusters, num_iteration, compactness_as_dispersion)
+
+         reference_dispersion = zeros( length(num_clusters),  num_iteration);
+
+         <span class="keyword">for</span> zz = 1 : num_iteration
+             generated_data = generate_uniform_points(reference_data);
+             reference_dispersion(:,zz) = calculate_dispersion(generated_data, num_clusters, compactness_as_dispersion);
+         <span class="keyword">end</span>
+
+         m_reference_dispersion = mean(reference_dispersion,2);
+         std_reference_dispersion = std(reference_dispersion, 0, 2);
+<span class="keyword">end</span>
+
+<span class="comment">% Generate artificial points similar to the original dataset</span>
+<span class="keyword">function</span> uniform_points = generate_uniform_points(data_points)
+         [n_points var_dim] = size(data_points);
+
+         uniform_points = unifrnd(min(min(data_points)),max(max(data_points)),n_points,var_dim);
+
+         <span class="comment">%mu = mean(data_points);</span>
+         <span class="comment">%Sigma = cov(data_points);</span>
+         <span class="comment">% For each dimension, generate datapoints according to the mean and covariance obtained</span>
+         <span class="comment">%uniform_points = mvnrnd(mu,Sigma,n_points) ;</span>
+         <span class="comment">%randi([mins maxs], num_datapoints, dim);</span>
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Back to Main
+% * <file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html Back to Main>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% A.Crimi 22 August 2012 
+%
+% input: 
+%       data: samples along the rows, each column has a different variable
+%       num_clusters: vector containing the possible number of clusters
+%       num_reference_bootstraps: the number of boostrap estimation for the
+%       reference dispersion
+%
+% output:
+%        optimal cluster number for the samples in data
+%
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [ opt_k, max_gap] = gap_statistics(data, num_clusters, num_reference_bootstraps, compactness_as_dispersion)
+
+if(nargin<4)
+    compactness_as_dispersion = 0;
+end
+
+% Calculate actual dispersion
+% Assuming that the k-means algorithm is converging properly
+actual_dispersions = calculate_dispersion(data, num_clusters, compactness_as_dispersion);
+
+% Calculate reference dispersion
+%The reference dispersion is generally not well estimated for less than 2000 bootstrap iterations
+[m_ref_dispersions std_reference_dispersion] = compute_reference_dispersion(data, num_clusters, num_reference_bootstraps, compactness_as_dispersion);
+ 
+% Calculate gaps
+gaps = abs(m_ref_dispersions - actual_dispersions);
+
+% Check for Nan and Inf
+if(sum(isnan(gaps) |  sum(isinf(gaps))) |  sum(isnan(std_reference_dispersion) |  sum(isinf(std_reference_dispersion))))
+  disp('Warning: There is a NaN or Inf among the results');  
+end
+
+% Calculate Maximum gap
+% This is the traditional way assuming  that the data are not noisy
+[val max_index ] = max(gaps) ;
+max_gap = num_clusters(max_index);
+
+% Find the smallest k such that Gap(k) > Gap(k+1) -  std_{k+1}
+%gaps = mean(n_gaps);
+%std_reference_dispersion = std(gaps,1,1);
+dif_std = abs( gaps - (sqrt(1 + 1/num_reference_bootstraps) * std_reference_dispersion ) );
+
+[xpos ypos ] =  find( ( gaps(1:end-1) - dif_std(2:end)) > 0 ); %Note: Matlab returns the first min
+ 
+if(isempty(xpos))
+    xpos = max(num_clusters);
+end
+% Take only the first
+opt_k = num_clusters(xpos(1));
+
+str = sprintf('The max gap is for %d cluster/s', max_gap);
+disp(str);
+str = sprintf('The largest gap change is for %d cluster/s. Consider this value for noisy data', opt_k);
+disp(str);
+
+%figure; errorbar( num_clusters, gaps,  std_reference_dispersion);
+%xlabel('Number of Clusters')
+%ylabel('Gaps')
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Calculate dispersions
+function dispersions = calculate_dispersion(test_data, num_clusters, compactness_as_dispersion)
+dispersions = zeros(length(num_clusters),1); % W in the Tibshirani paper
+[n_samples var_dim] = size(test_data);
+
+for kk = 1 : length(num_clusters)    
+    if(kk == 1) %K-means do not work for the only 1 cluster case
+        cluster_mean = mean(test_data);
+        if(compactness_as_dispersion)  
+            D  = sum( sum( squareform(pdist(test_data  )))) / (2 * n_samples ) ; %Already normalized for 2n
+        else
+            D = sum(  (sum( test_data - repmat(cluster_mean,n_samples,1) ).^2) )/ (2 * n_samples ); 
+        end
+        dispersions(kk) =  log( D );  
+    else
+        
+        %ids = kmeans( test_data, num_clusters(kk) , 'Replicates', 5 ); %Warning k-means performs random initialization
+        
+        [ids,~] = kmeans_plus( test_data', num_clusters(kk));% , 'Replicates', 5 ); %Warning k-means performs random initialization
+
+        for  jj = 1 : kk
+              if(compactness_as_dispersion)
+                 D(jj) = sum( sum( squareform(pdist(test_data( find(ids == kk) ,:) )))) / (2 * length( find(ids == kk))); %Already normalized for 2n
+              else
+                 cluster_mean = mean(test_data( find(ids == kk)));
+                 [n_samples_c var_dim] = size(test_data( find(ids == kk)));
+                 D(jj) = sum( (test_data( find(ids == kk)) - repmat(cluster_mean,n_samples_c,1) ).^2)/ (2 * n_samples_c );%Already normalized for 2n
+              end 
+        end
+        dispersions(kk) = log(sum(D));
+    end
+end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Calculate reference dispersion
+% For an appropriate reference distribution (in this case, uniform points in the same range as `data`), simulate the mean and standard deviation of the dispersion.
+function [m_reference_dispersion std_reference_dispersion] = compute_reference_dispersion(reference_data, num_clusters, num_iteration, compactness_as_dispersion)
+     
+         reference_dispersion = zeros( length(num_clusters),  num_iteration);
+
+         for zz = 1 : num_iteration
+             generated_data = generate_uniform_points(reference_data);
+             reference_dispersion(:,zz) = calculate_dispersion(generated_data, num_clusters, compactness_as_dispersion);
+         end 
+ 
+         m_reference_dispersion = mean(reference_dispersion,2);
+         std_reference_dispersion = std(reference_dispersion, 0, 2);
+end
+
+% Generate artificial points similar to the original dataset
+function uniform_points = generate_uniform_points(data_points)       
+         [n_points var_dim] = size(data_points); 
+          
+         uniform_points = unifrnd(min(min(data_points)),max(max(data_points)),n_points,var_dim);
+
+         %mu = mean(data_points);
+         %Sigma = cov(data_points);
+         % For each dimension, generate datapoints according to the mean and covariance obtained 
+         %uniform_points = mvnrnd(mu,Sigma,n_points) ;
+         %randi([mins maxs], num_datapoints, dim);
+end
+
+##### SOURCE END #####
+--></body></html>

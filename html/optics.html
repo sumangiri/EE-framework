@@ -1,0 +1,276 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Back to Main</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-07-09"><meta name="DC.source" content="optics.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Back to Main</h1><div><ul><li><a href="file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html">Back to Main</a></li></ul></div><pre class="codeinput"><span class="comment">% -------------------------------------------------------------------------</span>
+<span class="comment">% Function:</span>
+<span class="comment">% [RD,CD,order]=optics(x,k)</span>
+<span class="comment">% -------------------------------------------------------------------------</span>
+<span class="comment">% Aim:</span>
+<span class="comment">% Ordering objects of a data set to obtain the clustering structure</span>
+<span class="comment">% -------------------------------------------------------------------------</span>
+<span class="comment">% Input:</span>
+<span class="comment">% x - data set (m,n); m-objects, n-variables</span>
+<span class="comment">% k - number of objects in a neighborhood of the selected object</span>
+<span class="comment">% (minimal number of objects considered as a cluster)</span>
+<span class="comment">% -------------------------------------------------------------------------</span>
+<span class="comment">% Output:</span>
+<span class="comment">% RD - vector with reachability distances (m,1)</span>
+<span class="comment">% CD - vector with core distances (m,1)</span>
+<span class="comment">% order - vector specifying the order of objects (1,m)</span>
+<span class="comment">% -------------------------------------------------------------------------</span>
+<span class="comment">% Example of use:</span>
+<span class="comment">% x=[randn(30,2)*.4;randn(40,2)*.5+ones(40,1)*[4 4]];</span>
+<span class="comment">% [RD,CD,order]=optics(x,4)</span>
+<span class="comment">% -------------------------------------------------------------------------</span>
+<span class="comment">% References:</span>
+<span class="comment">% [1] M. Ankrest, M. Breunig, H. Kriegel, J. Sander,</span>
+<span class="comment">% OPTICS: Ordering Points To Identify the Clustering Structure,</span>
+<span class="comment">% available from www.dbs.informatik.uni-muenchen.de/cgi-bin/papers?query=--CO</span>
+<span class="comment">% [2] M. Daszykowski, B. Walczak, D.L. Massart, Looking for natural</span>
+<span class="comment">% patterns in analytical data. Part 2. Tracing local density</span>
+<span class="comment">% with OPTICS, J. Chem. Inf. Comput. Sci. 42 (2002) 500-507</span>
+<span class="comment">% -------------------------------------------------------------------------</span>
+<span class="comment">% Written by Michal Daszykowski</span>
+<span class="comment">% Department of Chemometrics, Institute of Chemistry,</span>
+<span class="comment">% The University of Silesia</span>
+<span class="comment">% December 2004</span>
+<span class="comment">% http://www.chemometria.us.edu.pl</span>
+
+<span class="keyword">function</span> [RD,CD,order,clust_assignment]=optics(x,k)
+
+[m,n]=size(x);
+CD=zeros(1,m);
+RD=ones(1,m)*10^10;
+
+<span class="comment">% Calculate Core Distances</span>
+<span class="keyword">for</span> i=1:m
+    D=sort(dist(x(i,:),x));
+    CD(i)=D(k+1);
+<span class="keyword">end</span>
+
+order=[];
+seeds=[1:m];
+
+ind=1;
+
+<span class="keyword">while</span> ~isempty(seeds)
+    ob=seeds(ind);
+    seeds(ind)=[];
+    order=[order ob];
+    mm=max([ones(1,length(seeds))*CD(ob);dist(x(ob,:),x(seeds,:))]);
+    ii=(RD(seeds))&gt;mm;
+    RD(seeds(ii))=mm(ii);
+    [i1 ind]=min(RD(seeds));
+<span class="keyword">end</span>
+
+RD(1)=max(RD(2:m))+.1*max(RD(2:m));
+
+
+[sort_RD,sort_RD_index]=sort(RD,<span class="string">'descend'</span>); <span class="comment">%sort reachability distances</span>
+[~,num_clusters]=max(abs(diff(sort_RD)));<span class="comment">%keep peaks until the maximun drop</span>
+<span class="comment">%weak heuristic, perhaps percentage of total is better</span>
+num_clusters=3;
+peak_location=sort(sort_RD_index(1:num_clusters));
+<span class="comment">%where the num_clust peaks are located</span>
+
+clust_assignment=zeros(size(x,1),1);
+
+<span class="keyword">for</span> i = 1:num_clusters-1
+    clust_assignment(order(peak_location(i)+1:peak_location(i+1)))=i;
+<span class="keyword">end</span>
+
+clust_assignment(order(peak_location(i+1)+1:end))=i+1;
+
+
+<span class="keyword">function</span> [D]=dist(i,x)
+
+<span class="comment">% function: [D]=dist(i,x)</span>
+<span class="comment">%</span>
+<span class="comment">% Aim:</span>
+<span class="comment">% Calculates the Euclidean distances between the i-th object and all objects in x</span>
+<span class="comment">% Input:</span>
+<span class="comment">% i - an object (1,n)</span>
+<span class="comment">% x - data matrix (m,n); m-objects, n-variables</span>
+<span class="comment">%</span>
+<span class="comment">% Output:</span>
+<span class="comment">% D - Euclidean distance (m,1)</span>
+
+[m,n]=size(x);
+D=(sum((((ones(m,1)*i)-x).^2)'));
+
+<span class="keyword">if</span> n==1
+   D=abs((ones(m,1)*i-x))';
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Back to Main
+% * <file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html Back to Main>
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+% Function: 
+% [RD,CD,order]=optics(x,k)
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+% Aim: 
+% Ordering objects of a data set to obtain the clustering structure 
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+% Input: 
+% x - data set (m,n); m-objects, n-variables
+% k - number of objects in a neighborhood of the selected object
+% (minimal number of objects considered as a cluster)
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+% Output: 
+% RD - vector with reachability distances (m,1)
+% CD - vector with core distances (m,1)
+% order - vector specifying the order of objects (1,m)
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+% Example of use:
+% x=[randn(30,2)*.4;randn(40,2)*.5+ones(40,1)*[4 4]];
+% [RD,CD,order]=optics(x,4)
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+% References: 
+% [1] M. Ankrest, M. Breunig, H. Kriegel, J. Sander, 
+% OPTICS: Ordering Points To Identify the Clustering Structure, 
+% available from www.dbs.informatik.uni-muenchen.de/cgi-bin/papers?query=REPLACE_WITH_DASH_DASHCO
+% [2] M. Daszykowski, B. Walczak, D.L. Massart, Looking for natural  
+% patterns in analytical data. Part 2. Tracing local density 
+% with OPTICS, J. Chem. Inf. Comput. Sci. 42 (2002) 500-507
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+% Written by Michal Daszykowski
+% Department of Chemometrics, Institute of Chemistry, 
+% The University of Silesia
+% December 2004
+% http://www.chemometria.us.edu.pl
+
+function [RD,CD,order,clust_assignment]=optics(x,k)
+
+[m,n]=size(x);
+CD=zeros(1,m);
+RD=ones(1,m)*10^10;
+
+% Calculate Core Distances
+for i=1:m	
+    D=sort(dist(x(i,:),x));
+    CD(i)=D(k+1);  
+end
+
+order=[];
+seeds=[1:m];
+
+ind=1;
+
+while ~isempty(seeds)
+    ob=seeds(ind);        
+    seeds(ind)=[]; 
+    order=[order ob];
+    mm=max([ones(1,length(seeds))*CD(ob);dist(x(ob,:),x(seeds,:))]);
+    ii=(RD(seeds))>mm;
+    RD(seeds(ii))=mm(ii);
+    [i1 ind]=min(RD(seeds));
+end   
+
+RD(1)=max(RD(2:m))+.1*max(RD(2:m));
+
+
+[sort_RD,sort_RD_index]=sort(RD,'descend'); %sort reachability distances
+[~,num_clusters]=max(abs(diff(sort_RD)));%keep peaks until the maximun drop
+%weak heuristic, perhaps percentage of total is better
+num_clusters=3;
+peak_location=sort(sort_RD_index(1:num_clusters)); 
+%where the num_clust peaks are located
+
+clust_assignment=zeros(size(x,1),1);
+
+for i = 1:num_clusters-1
+    clust_assignment(order(peak_location(i)+1:peak_location(i+1)))=i;
+end
+
+clust_assignment(order(peak_location(i+1)+1:end))=i+1;
+
+
+function [D]=dist(i,x)
+
+% function: [D]=dist(i,x)
+%
+% Aim: 
+% Calculates the Euclidean distances between the i-th object and all objects in x	 
+% Input: 
+% i - an object (1,n)
+% x - data matrix (m,n); m-objects, n-variables	    
+%                                                                 
+% Output: 
+% D - Euclidean distance (m,1)
+
+[m,n]=size(x);
+D=(sum((((ones(m,1)*i)-x).^2)'));
+
+if n==1
+   D=abs((ones(m,1)*i-x))';
+end
+
+
+##### SOURCE END #####
+--></body></html>

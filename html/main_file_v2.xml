@@ -1,0 +1,929 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mscript xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <version>8.1</version>
+   <release>2013a</release>
+   <date>2014-06-25</date>
+   <cell>
+      <count>1</count>
+      <mcode-count>1</mcode-count>
+      <cellOutputTarget>1</cellOutputTarget>
+      <mcodeoutput> 
+Calling SDPT3: 122 variables, 70 equality constraints
+------------------------------------------------------------
+
+ num. of constraints = 70
+ dim. of socp   var  = 110,   num. of socp blk  = 55
+ dim. of linear var  = 12
+ number of nearly dependent constraints = 5
+ To remove these constraints, re-run sqlp.m with OPTIONS.rmdepconstr = 1.
+*******************************************************************
+   SDPT3: Infeasible path-following algorithms
+*******************************************************************
+ version  predcorr  gam  expon  scale_data
+    NT      1      0.000   1        0    
+it pstep dstep pinfeas dinfeas  gap      prim-obj      dual-obj    cputime
+-------------------------------------------------------------------
+ 0|0.000|0.000|3.1e+00|7.1e+00|1.3e+15| 5.640626e+13  0.000000e+00| 0:0:00| chol  1  2 
+ 1|1.000|0.986|9.6e-01|1.0e-01|3.6e+13| 1.975561e+13  6.586862e+11| 0:0:00| chol  2  2 
+ 2|0.618|0.675|3.7e-01|3.2e-02|2.0e+13| 8.975008e+12 -2.017627e+12| 0:0:00| chol  2  2 
+ 3|0.902|0.873|3.6e-02|4.1e-03|3.8e+12| 1.879242e+12 -3.629842e+11| 0:0:00| chol  2  2 
+ 4|0.954|0.966|1.6e-03|1.4e-04|1.5e+11| 1.034312e+12  9.393795e+11| 0:0:00| chol  2  2 
+ 5|0.816|0.952|3.0e-04|6.7e-06|1.4e+10| 1.003094e+12  9.923510e+11| 0:0:00| chol  1  1 
+ 6|0.837|0.948|4.9e-05|3.5e-07|1.4e+09| 9.993038e+11  9.981489e+11| 0:0:00| chol  1  1 
+ 7|0.972|0.964|1.4e-06|1.3e-08|4.7e+07| 9.988915e+11  9.988530e+11| 0:0:00| chol  1  1 
+ 8|0.988|0.988|1.7e-08|1.8e-10|5.8e+05| 9.988778e+11  9.988774e+11| 0:0:00| chol  1  1 
+ 9|0.989|0.989|1.6e-09|6.1e-12|1.6e+04| 9.988777e+11  9.988777e+11| 0:0:00|
+  stop: max(relative gap, infeasibilities) &lt; 1.49e-08
+-------------------------------------------------------------------
+ number of iterations   =  9
+ primal objective value =  9.98877652e+11
+ dual   objective value =  9.98877664e+11
+ gap := trace(XZ)       = 1.60e+04
+ relative gap           = 8.03e-09
+ actual relative gap    = -5.99e-09
+ rel. primal infeas     = 1.62e-09
+ rel. dual   infeas     = 6.13e-12
+ norm(X), norm(y), norm(Z) = 1.7e+03, 1.6e+11, 3.5e+11
+ norm(A), norm(b), norm(C) = 1.7e+01, 7.4e+02, 2.4e+11
+ Total CPU time (secs)  = 0.19  
+ CPU time per iteration = 0.02  
+ termination code       =  0
+ DIMACS: 5.6e-09  0.0e+00  1.5e-11  0.0e+00  -6.0e-09  8.0e-09
+-------------------------------------------------------------------
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +9.98878e+11
+ 
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+corrections =
+
+     6
+
+ 
+Calling SDPT3: 10 variables, 6 equality constraints
+------------------------------------------------------------
+
+ num. of constraints =  6
+ dim. of socp   var  =  6,   num. of socp blk  =  3
+ dim. of linear var  =  4
+*******************************************************************
+   SDPT3: Infeasible path-following algorithms
+*******************************************************************
+ version  predcorr  gam  expon  scale_data
+    NT      1      0.000   1        0    
+it pstep dstep pinfeas dinfeas  gap      prim-obj      dual-obj    cputime
+-------------------------------------------------------------------
+ 0|0.000|0.000|5.3e-02|1.1e+00|3.0e+13| 1.428356e+13  0.000000e+00| 0:0:00| chol  1  1 
+ 1|1.000|0.987|5.5e+00|1.4e-02|1.8e+12| 1.247857e+12 -6.423181e+10| 0:0:00| chol  1  2 
+ 2|0.793|0.795|1.1e+00|2.9e-03|2.5e+11| 6.415509e+11  6.517666e+11| 0:0:00| chol  1  1 
+ 3|1.000|0.972|4.7e-08|8.2e-05|2.7e+10| 7.478142e+11  7.215525e+11| 0:0:00| chol  1  1 
+ 4|0.989|0.989|1.1e-08|9.3e-07|3.1e+08| 7.462150e+11  7.459171e+11| 0:0:00| chol  1  1 
+ 5|0.989|0.989|3.1e-09|1.0e-08|3.4e+06| 7.461969e+11  7.461937e+11| 0:0:00| chol  1  1 
+ 6|0.989|0.989|1.1e-09|1.2e-10|3.8e+04| 7.461968e+11  7.461967e+11| 0:0:00| chol  1  1 
+ 7|0.989|0.989|3.2e-10|3.0e-12|5.4e+02| 7.461968e+11  7.461968e+11| 0:0:00|
+  stop: max(relative gap, infeasibilities) &lt; 1.49e-08
+-------------------------------------------------------------------
+ number of iterations   =  7
+ primal objective value =  7.46196763e+11
+ dual   objective value =  7.46196766e+11
+ gap := trace(XZ)       = 5.39e+02
+ relative gap           = 3.61e-10
+ actual relative gap    = -2.28e-09
+ rel. primal infeas     = 3.19e-10
+ rel. dual   infeas     = 2.98e-12
+ norm(X), norm(y), norm(Z) = 2.1e+02, 1.0e+11, 2.0e+11
+ norm(A), norm(b), norm(C) = 4.6e+00, 2.0e+02, 1.4e+11
+ Total CPU time (secs)  = 0.09  
+ CPU time per iteration = 0.01  
+ termination code       =  0
+ DIMACS: 6.3e-10  0.0e+00  4.2e-12  0.0e+00  -2.3e-09  3.6e-10
+-------------------------------------------------------------------
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +7.46197e+11
+ 
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+No transition correction possible
+No transition correction possible
+No transition correction possible
+
+corrections =
+
+     3
+
+ 
+Calling SDPT3: 10 variables, 6 equality constraints
+------------------------------------------------------------
+
+ num. of constraints =  6
+ dim. of socp   var  =  6,   num. of socp blk  =  3
+ dim. of linear var  =  4
+*******************************************************************
+   SDPT3: Infeasible path-following algorithms
+*******************************************************************
+ version  predcorr  gam  expon  scale_data
+    NT      1      0.000   1        0    
+it pstep dstep pinfeas dinfeas  gap      prim-obj      dual-obj    cputime
+-------------------------------------------------------------------
+ 0|0.000|0.000|5.5e-02|1.1e+00|3.0e+13| 1.428356e+13  0.000000e+00| 0:0:00| chol  1  1 
+ 1|1.000|0.987|5.6e+00|1.4e-02|1.8e+12| 1.248324e+12 -6.562242e+10| 0:0:00| chol  1  1 
+ 2|0.796|0.770|1.1e+00|3.3e-03|2.6e+11| 6.644257e+11  6.731578e+11| 0:0:00| chol  1  1 
+ 3|1.000|0.972|4.7e-08|9.3e-05|2.8e+10| 7.724645e+11  7.453575e+11| 0:0:00| chol  1  1 
+ 4|0.989|0.989|1.1e-08|1.1e-06|3.2e+08| 7.708083e+11  7.705009e+11| 0:0:00| chol  1  1 
+ 5|0.989|0.989|2.7e-09|1.2e-08|3.5e+06| 7.707896e+11  7.707863e+11| 0:0:00| chol  1  1 
+ 6|0.989|0.989|9.4e-10|1.4e-10|3.9e+04| 7.707894e+11  7.707894e+11| 0:0:00| chol  1  1 
+ 7|0.989|0.989|2.9e-10|3.2e-12|5.6e+02| 7.707894e+11  7.707894e+11| 0:0:00|
+  stop: max(relative gap, infeasibilities) &lt; 1.49e-08
+-------------------------------------------------------------------
+ number of iterations   =  7
+ primal objective value =  7.70789431e+11
+ dual   objective value =  7.70789434e+11
+ gap := trace(XZ)       = 5.57e+02
+ relative gap           = 3.61e-10
+ actual relative gap    = -1.95e-09
+ rel. primal infeas     = 2.87e-10
+ rel. dual   infeas     = 3.16e-12
+ norm(X), norm(y), norm(Z) = 2.1e+02, 1.0e+11, 2.0e+11
+ norm(A), norm(b), norm(C) = 4.6e+00, 2.0e+02, 1.4e+11
+ Total CPU time (secs)  = 0.08  
+ CPU time per iteration = 0.01  
+ termination code       =  0
+ DIMACS: 5.7e-10  0.0e+00  4.5e-12  0.0e+00  -1.9e-09  3.6e-10
+-------------------------------------------------------------------
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +7.70789e+11
+ 
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+corrections =
+
+     0
+
+ 
+Calling SDPT3: 10 variables, 6 equality constraints
+------------------------------------------------------------
+
+ num. of constraints =  6
+ dim. of socp   var  =  6,   num. of socp blk  =  3
+ dim. of linear var  =  4
+*******************************************************************
+   SDPT3: Infeasible path-following algorithms
+*******************************************************************
+ version  predcorr  gam  expon  scale_data
+    NT      1      0.000   1        0    
+it pstep dstep pinfeas dinfeas  gap      prim-obj      dual-obj    cputime
+-------------------------------------------------------------------
+ 0|0.000|0.000|3.7e-01|1.1e+00|3.0e+13| 1.428356e+13  0.000000e+00| 0:0:00| chol  1  1 
+ 1|1.000|0.977|2.6e+01|2.5e-02|9.6e+12| 1.337970e+12 -3.436292e+11| 0:0:00| chol  2  1 
+ 2|0.942|0.093|1.5e+00|2.2e-02|1.8e+13| 2.113217e+13  4.713306e+12| 0:0:00| chol  1  1 
+ 3|0.972|0.981|4.2e-02|4.2e-04|6.2e+11| 5.707105e+12  5.119664e+12| 0:0:00| chol  1  1 
+ 4|0.987|0.988|5.3e-04|5.3e-06|8.0e+09| 5.415599e+12  5.407947e+12| 0:0:00| chol  1  1 
+ 5|0.989|0.989|5.9e-06|5.8e-08|8.8e+07| 5.411961e+12  5.411877e+12| 0:0:00| chol  1  1 
+ 6|0.989|0.989|6.6e-08|6.5e-10|9.7e+05| 5.411921e+12  5.411920e+12| 0:0:00| chol  1  1 
+ 7|0.989|0.989|1.5e-09|2.4e-11|1.2e+04| 5.411921e+12  5.411921e+12| 0:0:00|
+  stop: max(relative gap, infeasibilities) &lt; 1.49e-08
+-------------------------------------------------------------------
+ number of iterations   =  7
+ primal objective value =  5.41192052e+12
+ dual   objective value =  5.41192052e+12
+ gap := trace(XZ)       = 1.16e+04
+ relative gap           = 1.07e-09
+ actual relative gap    = -2.50e-10
+ rel. primal infeas     = 1.49e-09
+ rel. dual   infeas     = 2.35e-11
+ norm(X), norm(y), norm(Z) = 3.4e+02, 1.0e+11, 2.0e+11
+ norm(A), norm(b), norm(C) = 4.6e+00, 2.2e+02, 1.4e+11
+ Total CPU time (secs)  = 0.08  
+ CPU time per iteration = 0.01  
+ termination code       =  0
+ DIMACS: 3.2e-09  0.0e+00  3.3e-11  0.0e+00  -2.5e-10  1.1e-09
+-------------------------------------------------------------------
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +5.41192e+12
+ 
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+corrections =
+
+     0
+
+ 
+Calling SDPT3: 10 variables, 6 equality constraints
+------------------------------------------------------------
+
+ num. of constraints =  6
+ dim. of socp   var  =  6,   num. of socp blk  =  3
+ dim. of linear var  =  4
+*******************************************************************
+   SDPT3: Infeasible path-following algorithms
+*******************************************************************
+ version  predcorr  gam  expon  scale_data
+    NT      1      0.000   1        0    
+it pstep dstep pinfeas dinfeas  gap      prim-obj      dual-obj    cputime
+-------------------------------------------------------------------
+ 0|0.000|0.000|6.6e-02|1.1e+00|3.0e+13| 1.428356e+13  0.000000e+00| 0:0:00| chol  1  1 
+ 1|1.000|0.989|3.3e+00|1.2e-02|1.5e+12| 1.239116e+12 -3.591174e+10| 0:0:00| chol  1  2 
+ 2|0.836|0.636|5.4e-01|4.3e-03|2.1e+11| 8.438976e+11  8.485110e+11| 0:0:00| chol  1  1 
+ 3|0.987|0.975|6.9e-03|1.1e-04|1.2e+10| 9.336465e+11  9.246444e+11| 0:0:00| chol  1  1 
+ 4|0.989|0.989|7.7e-05|1.2e-06|1.4e+08| 9.340838e+11  9.339825e+11| 0:0:00| chol  1  1 
+ 5|0.989|0.989|8.5e-07|1.3e-08|1.5e+06| 9.340887e+11  9.340877e+11| 0:0:00| chol  1  1 
+ 6|0.989|0.989|8.6e-09|1.6e-10|1.7e+04| 9.340888e+11  9.340888e+11| 0:0:00|
+  stop: max(relative gap, infeasibilities) &lt; 1.49e-08
+-------------------------------------------------------------------
+ number of iterations   =  6
+ primal objective value =  9.34088819e+11
+ dual   objective value =  9.34088821e+11
+ gap := trace(XZ)       = 1.71e+04
+ relative gap           = 9.14e-09
+ actual relative gap    = -1.07e-09
+ rel. primal infeas     = 8.64e-09
+ rel. dual   infeas     = 1.56e-10
+ norm(X), norm(y), norm(Z) = 2.2e+02, 1.0e+11, 2.0e+11
+ norm(A), norm(b), norm(C) = 4.6e+00, 2.0e+02, 1.4e+11
+ Total CPU time (secs)  = 0.07  
+ CPU time per iteration = 0.01  
+ termination code       =  0
+ DIMACS: 1.7e-08  0.0e+00  2.2e-10  0.0e+00  -1.1e-09  9.1e-09
+-------------------------------------------------------------------
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +9.34089e+11
+ 
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+corrections =
+
+     0
+
+ 
+Calling SDPT3: 10 variables, 6 equality constraints
+------------------------------------------------------------
+
+ num. of constraints =  6
+ dim. of socp   var  =  6,   num. of socp blk  =  3
+ dim. of linear var  =  4
+*******************************************************************
+   SDPT3: Infeasible path-following algorithms
+*******************************************************************
+ version  predcorr  gam  expon  scale_data
+    NT      1      0.000   1        0    
+it pstep dstep pinfeas dinfeas  gap      prim-obj      dual-obj    cputime
+-------------------------------------------------------------------
+ 0|0.000|0.000|1.0e-02|1.1e+00|3.0e+13| 1.428356e+13  0.000000e+00| 0:0:00| chol  1  1 
+ 1|1.000|0.989|3.3e+00|1.2e-02|1.5e+12| 1.239115e+12 -3.811448e+10| 0:0:00| chol  1  1 
+ 2|0.967|0.987|1.1e-01|1.5e-04|6.8e+10| 4.220634e+10 -2.157401e+10| 0:0:00| chol  2  2 
+ 3|1.000|0.941|4.4e-06|8.7e-06|8.2e+09| 2.937887e+10  2.133788e+10| 0:0:00| chol  1  1 
+ 4|0.986|0.987|8.9e-08|1.1e-07|1.1e+08| 2.724931e+10  2.714274e+10| 0:0:00| chol  1  1 
+ 5|0.989|0.989|7.8e-09|1.3e-09|1.2e+06| 2.722136e+10  2.722026e+10| 0:0:00| chol  1  1 
+ 6|0.989|0.989|5.5e-09|2.9e-11|1.4e+04| 2.722107e+10  2.722112e+10| 0:0:00| chol  1  1 
+ 7|0.989|0.989|5.5e-09|1.2e-12|2.4e+02| 2.722106e+10  2.722113e+10| 0:0:00|
+  stop: max(relative gap, infeasibilities) &lt; 1.49e-08
+-------------------------------------------------------------------
+ number of iterations   =  7
+ primal objective value =  2.72210628e+10
+ dual   objective value =  2.72211260e+10
+ gap := trace(XZ)       = 2.37e+02
+ relative gap           = 4.35e-09
+ actual relative gap    = -1.16e-06
+ rel. primal infeas     = 5.47e-09
+ rel. dual   infeas     = 1.16e-12
+ norm(X), norm(y), norm(Z) = 2.1e+02, 1.0e+11, 2.0e+11
+ norm(A), norm(b), norm(C) = 4.6e+00, 2.0e+02, 1.4e+11
+ Total CPU time (secs)  = 0.08  
+ CPU time per iteration = 0.01  
+ termination code       =  0
+ DIMACS: 1.1e-08  0.0e+00  1.6e-12  0.0e+00  -1.2e-06  4.3e-09
+-------------------------------------------------------------------
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +2.72211e+10
+ 
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+corrections =
+
+     0
+
+ 
+Calling SDPT3: 10 variables, 6 equality constraints
+------------------------------------------------------------
+
+ num. of constraints =  6
+ dim. of socp   var  =  6,   num. of socp blk  =  3
+ dim. of linear var  =  4
+*******************************************************************
+   SDPT3: Infeasible path-following algorithms
+*******************************************************************
+ version  predcorr  gam  expon  scale_data
+    NT      1      0.000   1        0    
+it pstep dstep pinfeas dinfeas  gap      prim-obj      dual-obj    cputime
+-------------------------------------------------------------------
+ 0|0.000|0.000|2.9e-02|1.1e+00|3.0e+13| 1.428356e+13  0.000000e+00| 0:0:00| chol  1  1 
+ 1|1.000|0.989|3.3e+00|1.2e-02|1.5e+12| 1.239115e+12 -3.736361e+10| 0:0:00| chol  1  1 
+ 2|0.808|0.968|6.3e-01|3.7e-04|2.2e+11| 3.502371e+11  1.967602e+11| 0:0:00| chol  2  1 
+ 3|1.000|0.965|3.6e-07|1.3e-05|1.7e+10| 3.858879e+11  3.695116e+11| 0:0:00| chol  1  1 
+ 4|0.988|0.988|2.9e-08|1.5e-07|1.9e+08| 3.809369e+11  3.807446e+11| 0:0:00| chol  1  1 
+ 5|0.989|0.989|6.1e-09|1.7e-09|2.1e+06| 3.808788e+11  3.808768e+11| 0:0:00| chol  1  1 
+ 6|0.989|0.989|5.5e-09|3.3e-11|2.4e+04| 3.808782e+11  3.808782e+11| 0:0:00| chol  1  1 
+ 7|0.989|0.989|4.1e-09|1.6e-12|3.4e+02| 3.808782e+11  3.808782e+11| 0:0:00|
+  stop: max(relative gap, infeasibilities) &lt; 1.49e-08
+-------------------------------------------------------------------
+ number of iterations   =  7
+ primal objective value =  3.80878181e+11
+ dual   objective value =  3.80878228e+11
+ gap := trace(XZ)       = 3.44e+02
+ relative gap           = 4.52e-10
+ actual relative gap    = -6.17e-08
+ rel. primal infeas     = 4.09e-09
+ rel. dual   infeas     = 1.62e-12
+ norm(X), norm(y), norm(Z) = 2.1e+02, 1.0e+11, 2.0e+11
+ norm(A), norm(b), norm(C) = 4.6e+00, 2.0e+02, 1.4e+11
+ Total CPU time (secs)  = 0.08  
+ CPU time per iteration = 0.01  
+ termination code       =  0
+ DIMACS: 8.1e-09  0.0e+00  2.3e-12  0.0e+00  -6.2e-08  4.5e-10
+-------------------------------------------------------------------
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +3.80878e+11
+ 
+
+k1 =
+
+     0
+
+
+k1 =
+
+     0
+
+
+corrections =
+
+     0
+
+Elapsed time is 16.782986 seconds.
+</mcodeoutput>
+   </cell>
+   <originalCode>%second version that gets rid of pairing requirement
+
+
+%%NEED TO DO FOLLOWING:
+
+
+
+%1.If no solution can be found on perturbation, resort to pairing
+%2. For Oven (3) in REDD find the right ground truth
+%3 farrokh's problem seems to be diff extraction (do high pass filetering)
+%
+
+%Also, for right FSM values, in check cycle the k=0 needs to be fixed
+
+
+% FOR Farrokh: P_transient'; UB,LB=100; min_elem=0; multiple tries (min_elem=2 gives
+% better accuracy for some appliances)
+%For BLUED: PQ'; UB,LB=100; min_elem=2;
+%For REDD: PP'; UB,LB=1000; min_elem=20;
+
+%US = [Central AC, Fridge, Lights, Stove, Dishwasher, Furnace Fan, Oven, TV];
+%Pitt= [Fridge, Lights, RoomAC, TV, PC, VCR, Microwave, ClothesWasher]; 
+
+clear;clc;close all;
+tic;
+house='BLUED';
+plot_options.cluster_flag='false';
+plot_options.fsm_flag='false';
+plot_options.recon_trace='true';
+plot_options.state_transitions='false';
+
+
+
+
+
+
+%load the house 
+%load appliances that are of interest to you
+if strcmp(house,'BLUED')
+    load ('BLUED_transients.mat');
+    transients=T;
+    ID_of_interest=[111,101,102,129,118,120,112]; %[Fridge, Lamp1, Lamp2, TV, Laptop, PC, AV system]
+    min_distance=[30, 20, 20, 20, 20, 20, 20];
+    %states within this range are combined to one
+    tran_length=[200:400];
+    file_path='/Users/sumangiri/Desktop/FSM/Data/BLUED';
+    min_elem=[5, 5, 5, 5, 5, 5, 3];%minimum # of elements required for a group to be considered a cluster
+    error_fluctuate_threshold=ones(length(ID_of_interest),1)*100; %fluctuation flexibility for perturbation
+    combine_state_trans_threshold=ones(length(ID_of_interest),1)*30; %any state transitions that differ by 
+    %less than this is combined
+    perturb_subset_threshold=ones(length(ID_of_interest),1)*10;%anything below this will be considered as accumulated noise.
+    %and will be used as constraint for opt in perturbation
+                  
+elseif strcmp (house, 'Farrokh')
+    %remove 1 constraint for fridge.
+    
+    load ('Farrokh_transients.mat');
+    ID_of_interest=[111 183 120 129]; %Fridge (111), TV (129), Washer(183), Laptop (120)
+    transients=T;
+    min_distance=[10, 10, 10, 10];
+    tran_length=[30:150];
+    file_path='/Users/sumangiri/Desktop/FSM/Data/Farrokhs_apt';
+    min_elem=zeros(length(ID_of_interest),1);%minimum # of elements required for a group to be considered a cluster
+    error_fluctuate_threshold=[100 200 100 100];
+    combine_state_trans_threshold=ones(length(ID_of_interest),1)*30; 
+    perturb_subset_threshold=[30 50 20 20];
+    
+elseif strcmp (house, 'REDD_1')
+    load ('REDD_1.mat');
+    ID_of_interest=[3 5 6 9 10 11 20];  %oven(3), fridge (5), dishwasher (6), 
+                                        %lighting (9), %washer (10), 
+                                        %microwave(11), dryer(20)
+    transients=T;
+    min_distance=[30 30 30 30 30 30 30];
+    tran_length=[5:21];
+    file_path='/Users/sumangiri/Desktop/FSM/Data/REDD/low_freq/processed_house_1';
+    min_elem=[20, 20, 20, 20, 20, 20, 30];
+    error_fluctuate_threshold=[100, 100, 300,100 100 100 100];
+    combine_state_trans_threshold=ones(length(ID_of_interest),1)*30;
+    perturb_subset_threshold=[10 10 30 10 10 10 10];
+    
+
+    
+    
+else
+    error ('File not available yet');
+end
+
+
+%extract three features : (Delta_P, Delta_Q) ;Real Transient; PC projections
+
+%Co-eff of regression for transient* %%*needs to be added
+for i = 1:length(ID_of_interest)
+    PQ{1,i}=[0 0];
+    P_transient{1,i}=zeros(1,length(transients(1).P(tran_length)));
+    P_diff{1,i}=[];
+    time_stamps{1,i}=[];
+    
+    for j = 1:length(transients)
+        if transients(1,j).label==ID_of_interest(i)
+            transients(1,j).P=transients(1,j).P(:)';
+            PQ{1,i}=[PQ{1,i}; transients(1,j).dP transients(1,j).dQ];
+            P_transient{1,i}=[P_transient{1,i};transients(1,j).P(tran_length)];
+            P_diff{1,i}=[P_diff{1,i}; transients(1,j).dP];
+            temp_time=round((transients(1,j).t-datenum(1970,1,1))*86400);
+            time_stamps{1,i}=[time_stamps{1,i}; temp_time];
+        end
+    end
+
+    P_transient{1,i}(1,:)=[];PQ{1,i}(1,:)=[]; 
+    [~,sort_index]=sort(time_stamps{1,i});
+    
+    %sort things time wise
+    PQ{1,i}=PQ{1,i}(sort_index,:);
+    P_transient{1,i}=P_transient{1,i}(sort_index,:);
+    P_diff{1,i}=P_diff{1,i}(sort_index);
+    time_stamps{1,i}=time_stamps{1,i}(sort_index);
+    
+    
+    [PC_axes temp_PC_projections]=pca(P_transient{1,i},'NumComponents',2);
+    PC_projections{1,i}=temp_PC_projections;
+end
+
+if strcmp (house, 'Farrokh')
+    feature=P_transient';
+else
+    feature= PQ';
+end
+%options: PQ', PC_projections', P_transient' ;
+
+cluster_alg='affinity_propagation'; 
+%options: k-means, dbscan, optics, spectral_clustering,affinity_propagation
+
+plot_options.cluster_alg=cluster_alg;
+
+
+for i =1:length(feature)
+    x=feature{i,1};
+    temp_assigned_clusters=zeros(size(x,1),1);
+    
+    switch cluster_alg
+        case 'k-means'
+            [est_num_clust,~]=gap_statistics(x, 1:6, 2000,1);
+            [temp_assigned_clusters,~]=kmeans_plus(x',est_num_clust);
+    
+        case 'dbscan'
+            [temp_assigned_clusters,~]=dbscan (x,2,[]);
+            
+        case 'optics'
+            [~,~,~,temp_assigned_clusters]=optics(x,5);
+            
+        case 'spectral_clustering'
+            
+            W=SimGraph_NearestNeighbors(x',7,1,0);
+            [clusts,best_group_index,Quality,Vr] = cluster_rotate(W,[2:6],0,1);
+            best_clust=clusts(best_group_index);
+            best_clust=best_clust{1,1};
+            
+            for j = 1:length(best_clust)
+                temp_assigned_clusters(best_clust{1,j})=j;        
+            end
+            
+        case 'affinity_propagation' 
+            [s,p]=similarity_function(x);
+            [temp_assigned_clusters,netsim,dpsim,expref]=apcluster(s,p);
+        
+        otherwise
+            error('typo in clustering algorithm')
+    end
+    
+    
+    temp_assigned_clusters=temp_assigned_clusters+5000;
+    
+    
+    %get the representative power differential(median) at each cluster
+    %filters out noise (any cluster with less than 3 points)
+    [state_transitions{i}, transition_labels{i}]=...
+    get_state_transitions(temp_assigned_clusters,P_diff{1,i},min_elem(i));
+    
+    
+    
+    [temp_assigned_clusters, state_transitions{i}, transition_labels{i}]=...
+        combine_close_state_transitions(temp_assigned_clusters, state_transitions{i}, transition_labels{i},combine_state_trans_threshold(i));    
+
+    if length(transition_labels{i})&gt;9
+    display ('reducing number of clusters to 9');
+    [temp_assigned_clusters, state_transitions{i}, transition_labels{i}]=...
+        make_nine_clusters(temp_assigned_clusters, state_transitions{i}, transition_labels{i});
+            
+            if length(transition_labels{i})&gt;9
+                error('code falls apart if more than 9 clusters')
+            end
+            
+    end
+    
+       %sort events so that ons are before off
+    %assumes ON-&gt;OFF transmission models
+    
+    a=find(state_transitions{i}&gt;0);
+    b=find(state_transitions{i}&lt;0);
+    
+    %make sure everything is a column vector. important
+    state_transitions{i}=state_transitions{i}(:);
+    transition_labels{i}=transition_labels{i}(:);
+    
+    a1=sortrows([state_transitions{i}(a) transition_labels{i}(a)],1);
+    b1=sortrows([state_transitions{i}(b) transition_labels{i}(b)],-1);
+    
+    state_transitions{i}=[a1(:,1); b1(:,1)]';
+    transition_labels{i}=[a1(:,2); b1(:,2)]'; 
+    
+   %get transition probabilities from new state transitions 
+    transition_probabilities{i} =...
+        get_transition_probabilities(temp_assigned_clusters, transition_labels{i});
+    
+    temp_transition_probabilities{i}=transition_probabilities{i};
+    
+    %get the labels that were classified as noise, and reclassify them as
+    %the most likely markovian state
+    
+    noisy_event_indices=find(~ismember(temp_assigned_clusters,transition_labels{i}));
+    
+    
+    if length(noisy_event_indices)&gt;0
+        
+        
+        previous_index_val=temp_assigned_clusters(noisy_event_indices-1);
+
+        for k1 = 1:length(noisy_event_indices)
+            previous_indices=find(transition_labels{i}==previous_index_val(k1));
+            
+            %if the previous index is also noisy, look for the one before
+            %that
+            if length(previous_indices)&lt;1
+                p=2;
+                while length(previous_indices)&lt;1
+                    previous_index_temp=temp_assigned_clusters(noisy_event_indices(k1)-p);
+                    previous_indices=find(transition_labels{i}==previous_index_temp);
+                    p=p+1;
+                end
+            end
+            
+            [~,max_index]=max(transition_probabilities{i}(previous_indices,:));
+            temp_assigned_clusters(noisy_event_indices(k1))=transition_labels{i}(max_index);
+        end
+    end
+    
+    
+
+    
+   
+    
+    %perturb events so that event transitions are rounded off.
+    %and ZLSC holds
+
+    new_state_transitions{i}=perturb_state_transitions3(state_transitions{i}, error_fluctuate_threshold(i), perturb_subset_threshold(i));
+    
+    
+    %if some states are repeated, get rid of them
+    [new_state_transitions_temp, idx2]=unique(new_state_transitions{i});
+    new_state_transitions_temp=new_state_transitions{i}(sort(idx2));
+    
+    
+    for i2= 1:length(new_state_transitions_temp)
+        temp_index1=find(new_state_transitions{i}==new_state_transitions_temp(i2));
+        
+        temp_assigned_clusters(ismember(temp_assigned_clusters,transition_labels{i}(temp_index1)))=...
+            transition_labels{i}(temp_index1(1));
+        
+        transition_labels{i}(temp_index1)=...
+            transition_labels{i}(temp_index1(1));
+        
+    end
+    new_state_transitions{i}=new_state_transitions_temp;
+    transition_labels{i}=transition_labels{i}(sort(idx2));
+    
+    zero_index= abs(new_state_transitions{i})&lt;5;
+    
+    new_state_transitions{i}(zero_index)=[];
+    transition_labels{i}(zero_index)=[];
+    
+    
+    if strcmp (house, 'Farrokh')
+% %     %new assigned_clusters after perturbation
+    temp_assigned_clusters=reassign_clusters(new_state_transitions{i},...
+        transition_labels{i}, P_diff{i});
+    end
+    
+%   %store clusters for each applaince ID
+    assigned_clusters{i,1}=temp_assigned_clusters;
+%     
+
+    
+    
+       %get transition probabilities from new state transitions 
+    transition_probabilities{i} =...
+        get_transition_probabilities(temp_assigned_clusters, transition_labels{i});
+    
+    temp_transition_probabilities{i}=transition_probabilities{i};
+    
+    %change it into a graph (adjacency matrix)
+    transition_probabilities{i}(transition_probabilities{i}&gt;0)=1;
+    
+%     transition_probabilities{i}=ones(length(transition_labels{i}));
+%     transition_probabilities{i}(find(eye(length(transition_labels{i}))))=0;
+%     
+    %find all possible cycles from the directed graph of adjacency matrix 
+    %adjacency_matrix =transition probabilities
+    [~, cycles{i}]=find_elem_circuits(transition_probabilities{i});
+    
+    cycles{i}{end+1}=[1:length(transition_labels{i}) 1];
+    
+    %sort cycles so that on comes before off (to create pieces for fitting)
+    new_cycles_temp{i}=sort_cycles(cycles{i});
+    
+    %get rid of cycles that are not possible (violate ZLSC)
+    new_cycles{i}=check_cycles(new_cycles_temp{i},new_state_transitions{i});
+    
+    %create a new adjancency matrix based on possible cycles only
+    new_transition_probabilities{i}=create_adjacency (new_cycles{i},new_state_transitions{i});
+
+    [new_states{i} adjacency_matrix{i}]= get_states (new_cycles{i}, new_state_transitions{i}, ...
+        new_transition_probabilities{i}, min_distance(i)); 
+    
+    %correct errors in the sequence (i.e. replace state tranistions that
+    %are not possible using ones from feasible cycles)
+    
+    corrected_sequence {i}= correct_sequence2(new_cycles{i},...
+        assigned_clusters{i}, transition_labels{i}, new_transition_probabilities{i},...
+        temp_transition_probabilities{i});
+    
+    %corrected_sequence{i}=assigned_clusters{i};
+    %calculate energy and reconstruct the power trace
+    
+    [energy{i}, power_trace{i}, gt_energy{i}]=calculate_energy(corrected_sequence{i}', ...
+        time_stamps{i}, new_state_transitions{i},transition_labels{i},new_states{i},...
+        ID_of_interest(i),file_path);
+    
+    %plot various things
+    plot_figures(plot_options, assigned_clusters{i}, transition_labels{i}, state_transitions{i},...
+    feature{i}, new_transition_probabilities{i}, round(new_state_transitions{i}),adjacency_matrix{i},...
+    new_states{i},power_trace{i}, energy{i}, ID_of_interest, i,file_path)
+    
+        
+    compare(i,:)=[str2num(sprintf('%0.1f',energy{i})) str2num(sprintf('%0.1f',gt_energy{i})) ...
+        str2num(sprintf('%0.1f',100*(-1*energy{i}'+gt_energy{i}')./gt_energy{i}))];
+
+end
+    
+
+
+
+toc;
+
+
+</originalCode>
+   <m-file>main_file_v2</m-file>
+   <filename>/Users/sumangiri/Desktop/FSM/Code/Energy estimation v2/main_file_v2.m</filename>
+   <outputdir>/Users/sumangiri/Desktop/FSM/Code/Energy estimation v2/html</outputdir>
+</mscript>

@@ -1,0 +1,327 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Back to Main</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-07-09"><meta name="DC.source" content="correct_sequence2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Back to Main</h1><div><ul><li><a href="file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html">Back to Main</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> corrected_sequence= correct_sequence2(new_cycles, assigned_clusters, <span class="keyword">...</span>
+    transition_labels,transition_probabilities,temp_transition_probabilities)
+
+<span class="comment">%any transition that violates the FSM will be replaced by the most likely</span>
+<span class="comment">%state transition</span>
+
+
+
+    temp_assigned_clusters=assigned_clusters;
+    <span class="comment">%rename the cluster labels so that it corresponds to row and column</span>
+    <span class="comment">%numbers of adjacency matrix</span>
+    <span class="keyword">for</span> i = 1: length(transition_labels)
+           assigned_clusters(find(assigned_clusters==transition_labels(i)))=i;
+    <span class="keyword">end</span>
+
+    <span class="comment">%convert it to column vector</span>
+    <span class="keyword">if</span> size(new_cycles,1)&lt;2
+        new_cycles=new_cycles';
+    <span class="keyword">end</span>
+
+    <span class="comment">%put the length as second column</span>
+    <span class="keyword">for</span> i = 1:length(new_cycles)
+        new_cycles{i,2}=length(new_cycles{i,1});
+        new_cycles{i,1}=num2str(new_cycles{i,1});
+        new_cycles{i,1}(new_cycles{i,1}==<span class="string">' '</span>)=[];
+    <span class="keyword">end</span>
+
+    <span class="comment">%sort according to descending order of cycle length</span>
+    new_cycles=sortrows(new_cycles,-2);
+
+    <span class="comment">%convert to string</span>
+    <span class="comment">%assigned_clusters=num2str(assigned_clusters);</span>
+
+    <span class="comment">%convert assigned clusters to column vector for string handling</span>
+    <span class="comment">%purposes</span>
+    assigned_clusters=assigned_clusters(:);
+<span class="comment">%     if size(assigned_clusters,1)&gt;size(assigned_clusters,2)</span>
+<span class="comment">%         assigned_clusters=assigned_clusters';</span>
+<span class="comment">%     end</span>
+
+    <span class="comment">%get rid of trailing spaces</span>
+<span class="comment">%    assigned_clusters(assigned_clusters==' ')='';</span>
+    transition_prob=temp_transition_probabilities;
+    temp=assigned_clusters(1);
+
+
+    corrections=0;
+    max_segment_length=new_cycles{1,2}; <span class="comment">%length of the biggest piece</span>
+
+
+    <span class="keyword">for</span> i =2: length(assigned_clusters)
+
+         index_of_interest=zeros(length(transition_labels),1);
+         flag2=0;
+
+         <span class="keyword">if</span> assigned_clusters(i)&lt;length(transition_labels)/2+1
+             index_of_interest=1:floor(length(transition_labels)/2);
+             flag2=0;
+         <span class="keyword">else</span>
+             index_of_interest=floor(length(transition_labels)/2)+1:length(transition_labels);
+             flag2=1;
+         <span class="keyword">end</span>
+
+         temp_transition_probabilities=transition_prob;
+         counter2=1;
+
+         <span class="keyword">while</span> counter2
+
+            <span class="comment">%if transition is not possible</span>
+            <span class="keyword">if</span> ~transition_probabilities(assigned_clusters(i-1),assigned_clusters(i))
+                    <span class="comment">%dbstop at 70 in correct_sequence2</span>
+
+                    temp_transition_probabilities(assigned_clusters(i-1),assigned_clusters(i))=0;
+
+                    previous_index=temp(end);
+                    <span class="comment">%find the next most likely transition</span>
+
+                    [max_val,max_index]=<span class="keyword">...</span>
+                        max(temp_transition_probabilities(previous_index,index_of_interest));
+
+                    <span class="comment">%if its off look for offs only</span>
+                    <span class="keyword">if</span> flag2
+                        max_index=max_index+floor(length(transition_labels)/2);
+                    <span class="keyword">end</span>
+
+                    <span class="comment">%if no transitions are possible keep it as it is</span>
+                    <span class="keyword">if</span> ~max_val
+                          display(<span class="string">'No transition correction possible'</span>);
+                          max_index=assigned_clusters(i);
+<span class="comment">%                         [~,max_index]=...</span>
+<span class="comment">%                             max(transition_prob(previous_index,index_of_interest));</span>
+                        <span class="comment">%transition_probabilities(max_index, assigned_clusters(i+1))=1;</span>
+
+                    <span class="keyword">end</span>
+
+
+
+
+                    <span class="comment">%if transition_probabilities(max_index, assigned_clusters(i+1))</span>
+                    temp=[temp; max_index];
+                    corrections=corrections+1;
+                    counter2=0;
+
+                    <span class="comment">%end</span>
+            <span class="keyword">else</span>
+
+                      temp=[temp; assigned_clusters(i)];
+                      counter2=0;
+
+            <span class="keyword">end</span>
+
+         <span class="keyword">end</span>
+
+       <span class="keyword">end</span>
+
+    display(corrections)
+
+    <span class="keyword">for</span> i =1:length(temp)
+        corrected_sequence(i,1)=transition_labels(temp(i));
+    <span class="keyword">end</span>
+    <span class="comment">%</span>
+<span class="comment">%     if sum(corrected_sequence(:)~=temp_assigned_clusters(:))~=corrections-1</span>
+<span class="comment">%         error('There might be an error here')</span>
+<span class="comment">%     end</span>
+
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Back to Main
+% * <file:///Users/sumangiri/Desktop/FSM/Code/Energy%20estimation%20v2/html/main_file_v2.html Back to Main>
+
+
+function corrected_sequence= correct_sequence2(new_cycles, assigned_clusters, ...
+    transition_labels,transition_probabilities,temp_transition_probabilities)
+
+%any transition that violates the FSM will be replaced by the most likely
+%state transition
+
+
+    
+    temp_assigned_clusters=assigned_clusters;
+    %rename the cluster labels so that it corresponds to row and column
+    %numbers of adjacency matrix
+    for i = 1: length(transition_labels)
+           assigned_clusters(find(assigned_clusters==transition_labels(i)))=i;
+    end
+    
+    %convert it to column vector
+    if size(new_cycles,1)<2
+        new_cycles=new_cycles';
+    end
+    
+    %put the length as second column
+    for i = 1:length(new_cycles)
+        new_cycles{i,2}=length(new_cycles{i,1});
+        new_cycles{i,1}=num2str(new_cycles{i,1});
+        new_cycles{i,1}(new_cycles{i,1}==' ')=[];
+    end
+    
+    %sort according to descending order of cycle length
+    new_cycles=sortrows(new_cycles,-2);
+    
+    %convert to string
+    %assigned_clusters=num2str(assigned_clusters);  
+   
+    %convert assigned clusters to column vector for string handling
+    %purposes
+    assigned_clusters=assigned_clusters(:);
+%     if size(assigned_clusters,1)>size(assigned_clusters,2)
+%         assigned_clusters=assigned_clusters';
+%     end
+
+    %get rid of trailing spaces
+%    assigned_clusters(assigned_clusters==' ')='';    
+    transition_prob=temp_transition_probabilities;
+    temp=assigned_clusters(1);
+    
+    
+    corrections=0;
+    max_segment_length=new_cycles{1,2}; %length of the biggest piece
+    
+
+    for i =2: length(assigned_clusters)
+           
+         index_of_interest=zeros(length(transition_labels),1);
+         flag2=0;
+         
+         if assigned_clusters(i)<length(transition_labels)/2+1
+             index_of_interest=1:floor(length(transition_labels)/2);
+             flag2=0;
+         else
+             index_of_interest=floor(length(transition_labels)/2)+1:length(transition_labels);
+             flag2=1;
+         end
+         
+         temp_transition_probabilities=transition_prob; 
+         counter2=1;
+         
+         while counter2
+             
+            %if transition is not possible
+            if ~transition_probabilities(assigned_clusters(i-1),assigned_clusters(i))
+                    %dbstop at 70 in correct_sequence2
+                    
+                    temp_transition_probabilities(assigned_clusters(i-1),assigned_clusters(i))=0;
+                    
+                    previous_index=temp(end);
+                    %find the next most likely transition
+                    
+                    [max_val,max_index]=...
+                        max(temp_transition_probabilities(previous_index,index_of_interest));
+                    
+                    %if its off look for offs only
+                    if flag2
+                        max_index=max_index+floor(length(transition_labels)/2);  
+                    end
+                    
+                    %if no transitions are possible keep it as it is
+                    if ~max_val
+                          display('No transition correction possible');
+                          max_index=assigned_clusters(i);
+%                         [~,max_index]=...
+%                             max(transition_prob(previous_index,index_of_interest));
+                        %transition_probabilities(max_index, assigned_clusters(i+1))=1;
+                        
+                    end
+                    
+                    
+                    
+                    
+                    %if transition_probabilities(max_index, assigned_clusters(i+1))
+                    temp=[temp; max_index];
+                    corrections=corrections+1;
+                    counter2=0;
+                        
+                    %end
+            else
+
+                      temp=[temp; assigned_clusters(i)];
+                      counter2=0;
+                      
+            end
+                  
+         end
+         
+       end
+    
+    display(corrections)
+
+    for i =1:length(temp)
+        corrected_sequence(i,1)=transition_labels(temp(i));
+    end
+    %     
+%     if sum(corrected_sequence(:)~=temp_assigned_clusters(:))~=corrections-1
+%         error('There might be an error here')
+%     end
+   
+end
+##### SOURCE END #####
+--></body></html>
